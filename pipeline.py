@@ -3,8 +3,8 @@
 Extract -> Clean -> Transform -> Analyze -> Load -> Report, all run by run_pipeline().
 
 Usage:
-    python pipeline.py                                          # the Kaggle dataset
-    python pipeline.py --input student_performance_messy.csv    # practice on messy data
+    python pipeline.py                                          # Kaggle dataset
+    python pipeline.py --input student_performance_messy.csv    # robustness test
 """
 import argparse
 import base64
@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 import matplotlib
-matplotlib.use("Agg")  # draw charts to files, no window
+matplotlib.use("Agg")  # headless backend
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -32,10 +32,9 @@ VALID_RANGES = {
     "physical_activity": (0, 50),
     "exam_score": (0, 100),
 }
-# Exam scores in this dataset run from 55 to 100, so "below 50" would be an empty group
+# Bins follow the observed ranges: exam scores 55-100, attendance 60-100%
 PERFORMANCE_BINS = [0, 64, 79, 100]
 PERFORMANCE_LABELS = ["Needs Improvement", "Good", "Excellent"]
-# Attendance runs from 60% to 100%
 ATTENDANCE_BINS = [0, 69, 84, 100]
 ATTENDANCE_LABELS = ["Low (60-69%)", "Medium (70-84%)", "High (85-100%)"]
 # Text factors whose effect on the exam score we compare
@@ -103,7 +102,7 @@ def clean_data(df):
         if missing == 0:
             continue
         if is_text(df[col]):
-            df[col] = df[col].fillna("Unknown")          # honest label for text gaps
+            df[col] = df[col].fillna("Unknown")
         else:
             df[col] = df[col].fillna(df[col].median())   # median is robust to outliers
         filled[col] = missing

@@ -1,8 +1,4 @@
-"""Example: run the pipeline every day with Apache Airflow.
-
-Airflow runs on Linux or WSL. Install it there, copy this file and pipeline.py into
-Airflow's dags/ folder, and the scheduler runs run_pipeline() once a day.
-"""
+"""Airflow DAG that runs the pipeline daily (place with pipeline.py in the dags/ folder)."""
 from datetime import datetime
 
 from airflow import DAG

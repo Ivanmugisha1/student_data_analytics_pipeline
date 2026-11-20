@@ -1,8 +1,7 @@
-"""Make a messy copy of the Kaggle data to practise the cleaning step.
+"""Generate synthetic messy data for the pipeline's robustness test.
 
-Reads StudentPerformanceFactors.csv and writes student_performance_messy.csv with
-duplicates, numbers stored as text ("23 hours", "84%", "67/100"), invalid values and
-extra missing values. The original file is not changed.
+Writes student_performance_messy.csv: the source data with duplicates, numbers stored
+as text ("23 hours", "84%", "67/100"), out-of-range values and extra missing values.
 """
 import numpy as np
 import pandas as pd
